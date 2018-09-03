@@ -36,7 +36,6 @@ public class PingMyRideServiceImpl implements PingMyRideService {
 
     public List<RouteResponse> findDriversForRider(String user, double lat, double lng)
             throws InterruptedException, ApiException, IOException {
-
         List<Route> routes = routeService.findAll();
 
         List<RouteResponse> rideResponses = new ArrayList<>();

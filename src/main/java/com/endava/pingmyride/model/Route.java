@@ -28,10 +28,10 @@ import lombok.Data;
 public class Route {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @Column(name = "arrival", columnDefinition= "TIMESTAMP WITHOUT TIME ZONE")
+  @Column(name = "arrival", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
   @Temporal(TemporalType.TIMESTAMP)
   private Date arrival;
   @ManyToOne(fetch = FetchType.EAGER)

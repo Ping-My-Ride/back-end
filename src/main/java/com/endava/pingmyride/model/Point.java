@@ -13,16 +13,16 @@ import lombok.Data;
  */
 @Entity
 @Data
-@Table(name="point")
+@Table(name = "point")
 public class Point {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
-  private Long id;
-  @Column(name="lat")
-  private Double latitude;
-  @Column(name="lng")
-  private Double longitude;
-  @Column(name="routeid")
-  private Long routeId;
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+  @Column(name = "lat")
+  private Double latitude;
+  @Column(name = "lng")
+  private Double longitude;
+  @Column(name = "routeid")
+  private Long routeId;
 }
