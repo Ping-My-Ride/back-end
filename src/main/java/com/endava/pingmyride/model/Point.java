@@ -1,7 +1,6 @@
 package com.endava.pingmyride.model;
 
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -12,9 +11,8 @@ import lombok.Data;
 @Table(name="point")
 @Data
 public class Point {
-  private Long id;
-  private Double latitute;
-  private Double Longitude;
+  private Double latitude;
+  private Double longitude;
   private Route route;
 
 }
