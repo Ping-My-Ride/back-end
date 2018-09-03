@@ -1,6 +1,8 @@
 package com.endava.pingmyride;
 
-import com.endava.pingmyride.services.PingMyRideServiceImpl;
+import com.endava.pingmyride.controllers.RideRequest;
+import com.endava.pingmyride.controllers.RideResponse;
+import com.endava.pingmyride.services.PingMyRideService;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.LatLng;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,9 +25,16 @@ import java.util.List;
 public class PingMyRideServiceTest {
 
     @Autowired
-    PingMyRideServiceImpl pingMyRideService;
+    PingMyRideService pingMyRideService;
+
 
     @Test
+    public void findDriversForRiderTest() throws InterruptedException, ApiException, IOException {
+        RideRequest rideRequest = new RideRequest("Pepe", 6.16868, -75.587397, LocalDateTime.now());
+        List<RideResponse>  rideResponses = pingMyRideService.findDriversForRider(rideRequest);
+    }
+
+    //@Test
     public void rankBestRideProvidersByDistance() throws InterruptedException, ApiException, IOException {
 
         LatLng[] riderHome = {new LatLng(6.16868, -75.587397)};

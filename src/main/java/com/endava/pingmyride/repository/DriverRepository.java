@@ -3,12 +3,14 @@ package com.endava.pingmyride.repository;
 import com.endava.pingmyride.controllers.RideRequest;
 import com.endava.pingmyride.services.Driver;
 import com.google.maps.model.LatLng;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DriverRepo {
+@Service
+public class DriverRepository {
 
 
     public List<Driver> findAllDrivers() {

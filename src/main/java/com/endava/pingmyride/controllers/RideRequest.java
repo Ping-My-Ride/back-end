@@ -6,16 +6,16 @@ public class RideRequest {
 
     public String userName;
 
-    public float lat;
+    public double lat;
 
-    public float lon;
+    public double lon;
 
     public LocalDateTime arrivalTime;
 
     public RideRequest() {
     }
 
-    public RideRequest(String userName, float lat, float lon, LocalDateTime arrivalTime) {
+    public RideRequest(String userName, double lat, double lon, LocalDateTime arrivalTime) {
         this.userName = userName;
         this.lat = lat;
         this.lon = lon;
@@ -30,7 +30,7 @@ public class RideRequest {
         this.userName = userName;
     }
 
-    public float getLat() {
+    public double getLat() {
         return lat;
     }
 
@@ -38,7 +38,7 @@ public class RideRequest {
         this.lat = lat;
     }
 
-    public float getLon() {
+    public double getLon() {
         return lon;
     }
 
