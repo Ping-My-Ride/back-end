@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface RouteService {
 
   List<Route> findByPerson(Long personId);
+  List<Route> findAll();
   Optional<Route> findById(Long id);
   Route save(Route route);
 

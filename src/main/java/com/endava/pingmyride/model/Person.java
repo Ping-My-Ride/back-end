@@ -1,6 +1,9 @@
 package com.endava.pingmyride.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
@@ -13,7 +16,9 @@ import lombok.Data;
 @Data
 public class Person {
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
+  @Column(name="username")
   private String userName;
   private String password;
   private String phone;
