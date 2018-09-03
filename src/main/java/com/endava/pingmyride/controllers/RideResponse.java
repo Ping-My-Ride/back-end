@@ -4,7 +4,7 @@ import com.endava.pingmyride.services.Driver;
 import com.google.maps.model.DistanceMatrix;
 
 public class RideResponse {
-    private Driver driver;
+    public Driver driver;
 
     public long walkingDuration;
 
@@ -16,4 +16,6 @@ public class RideResponse {
 
         this.distanceMatrix = distanceMatrix;
     }
+
+
 }

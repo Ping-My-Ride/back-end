@@ -22,9 +22,10 @@ public class PingMyRideResController {
         return "Hello Ping My Riders!!";
     }
 
-    @PostMapping("/find-rides")
-    public List<RideResponse> finMyRides(@RequestBody RideRequest rideRequest) throws InterruptedException, ApiException, IOException {
-        return pingMyRideService.findDriversForRider(rideRequest) ;
+    @GetMapping("/{user}/drivers")
+    public List<RideResponse> finMyRides(@PathVariable String user, @RequestParam double lat, @RequestParam double lng) throws InterruptedException, ApiException, IOException {
+
+        return pingMyRideService.findDriversForRider(user, lat, lng) ;
     }
 
     @PostMapping("/find-path")

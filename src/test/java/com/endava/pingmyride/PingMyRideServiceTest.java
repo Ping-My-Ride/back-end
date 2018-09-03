@@ -30,8 +30,7 @@ public class PingMyRideServiceTest {
 
     @Test
     public void findDriversForRiderTest() throws InterruptedException, ApiException, IOException {
-        RideRequest rideRequest = new RideRequest("Pepe", 6.16868, -75.587397, LocalDateTime.now());
-        List<RideResponse>  rideResponses = pingMyRideService.findDriversForRider(rideRequest);
+        List<RideResponse>  rideResponses = pingMyRideService.findDriversForRider("Pepe", 6.16868, -75.587397);
     }
 
     //@Test

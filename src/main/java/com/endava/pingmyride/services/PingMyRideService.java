@@ -13,7 +13,7 @@ import java.util.List;
 
 public interface PingMyRideService {
 
-    List<RideResponse> findDriversForRider(RideRequest rideRequest) throws InterruptedException, ApiException, IOException;
+    List<RideResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException;
 
     SnappedPoint[] getRoadSnappedPoints(LatLng[] latLngs) throws InterruptedException,
             ApiException, IOException;

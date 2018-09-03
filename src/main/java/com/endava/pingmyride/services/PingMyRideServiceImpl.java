@@ -11,6 +11,7 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class PingMyRideServiceImpl implements PingMyRideService {
     @Autowired
     private DriverRepository driverRepository;
 
-    public List<RideResponse> findDriversForRider(RideRequest rideRequest) throws InterruptedException, ApiException, IOException {
+    public List<RideResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
 
         List<Driver> drivers = driverRepository.findAllDrivers();
 
@@ -37,7 +38,7 @@ public class PingMyRideServiceImpl implements PingMyRideService {
         List<RideResponse> rideResponses = new ArrayList<>();
 
         for (Driver driver : drivers) {
-            DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(rideRequest.lat, rideRequest.lon)}, driver.route);
+            DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(lat, lng)}, driver.route);
             rideResponses.add(Arrays.stream(distanceMatrix.rows[0].elements)
                     .min((dm1, dm2) -> {
                         if (dm1.duration.inSeconds < dm2.duration.inSeconds) {
