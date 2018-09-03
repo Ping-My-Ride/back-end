@@ -1,6 +1,6 @@
 package com.endava.pingmyride.services;
 
-import com.endava.pingmyride.controllers.RiderResponse;
+import com.endava.pingmyride.controllers.RouteResponse;
 import com.endava.pingmyride.repository.DriverRepository;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
@@ -27,13 +27,13 @@ public class PingMyRideServiceImpl implements PingMyRideService {
     @Autowired
     private DriverRepository driverRepository;
 
-    public List<RiderResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
+    public List<RouteResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
 
         List<Driver> drivers = driverRepository.findAllDrivers();
 
         //PlaceDetails placeDetails = pingMyRideService.getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
 
-        List<RiderResponse> rideResponses = new ArrayList<>();
+        List<RouteResponse> rideResponses = new ArrayList<>();
 
         for (Driver driver : drivers) {
             DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(lat, lng)}, driver.route);
@@ -46,7 +46,7 @@ public class PingMyRideServiceImpl implements PingMyRideService {
                         } else {
                             return 0;
                         }
-                    }).map(distanceMatrixElement -> new RiderResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
+                    }).map(distanceMatrixElement -> new RouteResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
         }
 
 

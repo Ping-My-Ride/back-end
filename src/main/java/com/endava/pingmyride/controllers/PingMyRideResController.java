@@ -22,7 +22,7 @@ public class PingMyRideResController {
     }
 
     @GetMapping("/{user}/drivers")
-    public List<RiderResponse> finMyRides(@PathVariable String user, @RequestParam double lat, @RequestParam double lng) throws InterruptedException, ApiException, IOException {
+    public List<RouteResponse> finMyRides(@PathVariable String user, @RequestParam double lat, @RequestParam double lng) throws InterruptedException, ApiException, IOException {
 
         return pingMyRideService.findDriversForRider(user, lat, lng) ;
     }

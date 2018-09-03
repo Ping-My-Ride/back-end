@@ -1,6 +1,6 @@
 package com.endava.pingmyride;
 
-import com.endava.pingmyride.controllers.RiderResponse;
+import com.endava.pingmyride.controllers.RouteResponse;
 import com.endava.pingmyride.services.PingMyRideService;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
@@ -28,7 +28,7 @@ public class PingMyRideServiceTest {
 
     @Test
     public void findDriversForRiderTest() throws InterruptedException, ApiException, IOException {
-        List<RiderResponse>  rideResponses = pingMyRideService.findDriversForRider("Pepe", 6.16868, -75.587397);
+        List<RouteResponse>  rideResponses = pingMyRideService.findDriversForRider("Pepe", 6.16868, -75.587397);
     }
 
     //@Test
