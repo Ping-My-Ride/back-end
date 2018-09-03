@@ -4,3 +4,6 @@ spring:
     username: pfwzgkulzvvouw
     password: c04a0d165e33d86b045564c19d259f42b41320c690af278f1e3519a1044d4aed
     platform: postgres
+
+    hikari:
+      maximum-pool-size: 5
