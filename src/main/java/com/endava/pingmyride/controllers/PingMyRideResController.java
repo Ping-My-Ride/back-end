@@ -4,8 +4,11 @@ import com.endava.pingmyride.model.Person;
 import com.endava.pingmyride.model.Route;
 import com.endava.pingmyride.services.Driver;
 import com.endava.pingmyride.services.PersonService;
+import com.endava.pingmyride.services.PersonServiceImpl;
+import com.endava.pingmyride.services.PingMyRideService;
 import com.endava.pingmyride.services.PingMyRideServiceImpl;
 import com.endava.pingmyride.services.RouteService;
+import com.endava.pingmyride.services.RouteServiceImpl;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
 import com.google.maps.model.SnappedPoint;
@@ -28,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PingMyRideResController {
 
     @Autowired
-    private PingMyRideServiceImpl pingMyRideService;
+    private PingMyRideService pingMyRideService;
 
     @Autowired
     private RouteService routeService;

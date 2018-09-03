@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RouteRepository  extends JpaRepository<Route,Long> {
 
-  @Query("from Route r inner join fetch r.person where r.person.id = :personId")
-  List<Route> findByPerson(@Param("PersonId") Long personId);
+  @Query(value = "select * from route where personid = ?1", nativeQuery = true)
+  List<Route> findByPerson(Long personId);
 
 }
