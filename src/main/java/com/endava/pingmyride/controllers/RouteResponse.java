@@ -1,11 +1,12 @@
 package com.endava.pingmyride.controllers;
 
+import com.endava.pingmyride.model.Route;
 import com.endava.pingmyride.services.Driver;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.DistanceMatrixElement;
 
 public class RouteResponse {
-    public Driver driver;
+    public Route route;
 
     public long walkingDuration;
 
@@ -15,9 +16,9 @@ public class RouteResponse {
 
     public DistanceMatrix distanceMatrix;
 
-    public RouteResponse(Driver driver, long walkingDuration, DistanceMatrixElement distanceMatrixElement,
+    public RouteResponse(Route route, long walkingDuration, DistanceMatrixElement distanceMatrixElement,
                          int distanceMatrixIndex, DistanceMatrix distanceMatrix) {
-        this.driver = driver;
+        this.route = route;
         this.walkingDuration = walkingDuration;
         this.distanceMatrixElement = distanceMatrixElement;
         this.distanceMatrixIndex = distanceMatrixIndex;
