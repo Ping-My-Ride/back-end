@@ -68,4 +68,9 @@ public class PingMyRideResController {
         return responseEntity;
     }
 
+    @GetMapping("/routes")
+    public List<Route> findAllRoutes(){
+        return routeService.findAll();
+    }
+
 }
