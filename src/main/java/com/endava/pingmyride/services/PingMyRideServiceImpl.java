@@ -1,16 +1,22 @@
 package com.endava.pingmyride.services;
 
-import com.endava.pingmyride.controllers.RideRequest;
-import com.google.maps.*;
+import com.endava.pingmyride.controllers.RouteResponse;
+import com.endava.pingmyride.repository.DriverRepository;
+import com.google.maps.DistanceMatrixApi;
+import com.google.maps.GeoApiContext;
+import com.google.maps.PlacesApi;
+import com.google.maps.RoadsApi;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class PingMyRideServiceImpl implements PingMyRideService {
@@ -19,34 +25,51 @@ public class PingMyRideServiceImpl implements PingMyRideService {
             .apiKey("AIzaSyBW_4-OeWub-qsEyQBq91rO6uTA3OsWtGk")
             .build();
 
-    public List<Driver> findDrivers(RideRequest rideRequest) {
+    @Autowired
+    private DriverRepository driverRepository;
 
-//        for (List<LatLng> providersLatLngs : providersLatLonLists) {
-//            SnappedPoint[] providerSnappedPoints = pingMyRideService.getRoadSnappedPoints(
-//                    providersLatLngs.toArray(new LatLng[providersLatLngs.size()]));
-//
-//            LatLng[] latLngArray = Arrays.stream(providerSnappedPoints).map(
-//                    snappedPoint -> snappedPoint.location).toArray(size -> new LatLng[size]);
-//
-//            System.out.println("------------- SnappedPoint -----------------");
-//            System.out.println(providerSnappedPoints);
-//
-//            snappedProvidersPoints.add(latLngArray);
-//        }
-//
-//        //SnappedPoint[] riderSnappedPoints = pingMyRideService.getRoadSnappedPoints(new LatLng[]{rider});
-//        //System.out.println("------------- riderSnappedPoints -----------------");
-//        //System.out.println(riderSnappedPoints);
-//
-//        //PlaceDetails placeDetails = pingMyRideService.getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
-//
-//        for (LatLng[] snappedProvidersLatLng : snappedProvidersPoints) {
-//            DistanceMatrix distanceMatrix = pingMyRideService.getWalkingDistanceMatrix(riderHome, snappedProvidersLatLng);
-//            System.out.println("------------- distanceMatrix -----------------");
-//            System.out.println(distanceMatrix);
-//        }
+    public List<RouteResponse> findDriversForRider(String user, double lat, double lng)
+            throws InterruptedException, ApiException, IOException {
 
-        return null;
+        List<Driver> drivers = driverRepository.findAllDrivers();
+
+        PlaceDetails placeDetails = getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
+
+        List<RouteResponse> rideResponses = new ArrayList<>();
+
+        for (Driver driver : drivers) {
+            DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(lat, lng)}, driver.route);
+
+
+            int minIndex = 0;
+            DistanceMatrixElement minDistanceMatrixElement = distanceMatrix.rows[0].elements[minIndex];
+
+            for(int i=1; i< distanceMatrix.rows[0].elements.length; i++) {
+                        if (minDistanceMatrixElement.duration.inSeconds > distanceMatrix.rows[0].elements[i].duration.inSeconds) {
+                            minDistanceMatrixElement = distanceMatrix.rows[0].elements[i];
+                            minIndex = i;
+                        }
+            }
+
+            RouteResponse routeResponse = new RouteResponse(driver, minDistanceMatrixElement.duration.inSeconds,
+                    minDistanceMatrixElement, minIndex, distanceMatrix);
+
+            rideResponses.add(routeResponse);
+
+        }
+
+
+        Collections.sort(rideResponses, (response1, response2) -> {
+            if (response1.walkingDuration < response2.walkingDuration) {
+                return -1;
+            } else if (response1.walkingDuration > response2.walkingDuration) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+
+        return rideResponses;
 
     }
 
@@ -78,7 +101,6 @@ public class PingMyRideServiceImpl implements PingMyRideService {
 
         return distanceMatrix;
     }
-
 
 
 }
