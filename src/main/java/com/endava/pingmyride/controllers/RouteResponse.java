@@ -11,12 +11,16 @@ public class RouteResponse {
 
     public DistanceMatrixElement distanceMatrixElement;
 
+    public int distanceMatrixIndex;
+
     public DistanceMatrix distanceMatrix;
 
-    public RouteResponse(Driver driver, long walkingDuration, DistanceMatrixElement distanceMatrixElement, DistanceMatrix distanceMatrix) {
+    public RouteResponse(Driver driver, long walkingDuration, DistanceMatrixElement distanceMatrixElement,
+                         int distanceMatrixIndex, DistanceMatrix distanceMatrix) {
         this.driver = driver;
         this.walkingDuration = walkingDuration;
         this.distanceMatrixElement = distanceMatrixElement;
+        this.distanceMatrixIndex = distanceMatrixIndex;
 
         this.distanceMatrix = distanceMatrix;
     }
