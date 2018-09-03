@@ -1,7 +1,9 @@
 package com.endava.pingmyride.controllers;
 
+import com.endava.pingmyride.model.Notification;
 import com.endava.pingmyride.model.Person;
 import com.endava.pingmyride.model.Route;
+import com.endava.pingmyride.services.EmailService;
 import com.endava.pingmyride.services.PersonService;
 import com.endava.pingmyride.services.PingMyRideService;
 import com.endava.pingmyride.services.RouteService;
@@ -35,6 +37,9 @@ public class PingMyRideRestController {
 
     @Autowired
     private PersonService personService;
+
+    @Autowired
+    private EmailService emailService;
 
     @GetMapping("/hello-riders")
     public String rides() {
@@ -87,6 +92,16 @@ public class PingMyRideRestController {
     @PostMapping("/routes")
     public Long postRoute(@RequestBody Route route) {
         return routeService.save(route).getId();
+    }
+
+    @PostMapping("/sendNotification")
+    public void sendEmail(@RequestBody Notification notification) {
+        try {
+            emailService.sendContactEmail(notification.getFrom(), notification.getTo(),
+                notification.getRiderName(), notification.getDriverName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

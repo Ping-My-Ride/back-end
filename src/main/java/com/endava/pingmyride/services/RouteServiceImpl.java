@@ -1,4 +1,3 @@
-// Copyright (c) 2018 Sotheby's, Inc.
 package com.endava.pingmyride.services;
 
 import com.endava.pingmyride.model.Route;

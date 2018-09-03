@@ -28,7 +28,7 @@ import lombok.Data;
 public class Route {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
   private String name;
   @Column(name = "arrival", columnDefinition= "TIMESTAMP WITHOUT TIME ZONE")
