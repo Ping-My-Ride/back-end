@@ -23,7 +23,7 @@ public class DriverRepository {
         provider.add(new LatLng(6.168600, -75.585765));
         provider.add(new LatLng(6.169696, -75.587600));
 
-        possibleRides.add(new Driver("u", provider.toArray(new LatLng[provider.size()]), LocalDateTime.now()));
+        possibleRides.add(new Driver("Marian Antonieta", provider.toArray(new LatLng[provider.size()]), LocalDateTime.now()));
 
         //p two
         provider = new ArrayList<>();
@@ -31,7 +31,7 @@ public class DriverRepository {
         provider.add(new LatLng(6.169801, -75.586242));
         provider.add(new LatLng(6.171449, -75.588777));
 
-        possibleRides.add(new Driver("u", provider.toArray(new LatLng[provider.size()]), LocalDateTime.now()));
+        possibleRides.add(new Driver("Esperanza Gomez", provider.toArray(new LatLng[provider.size()]), LocalDateTime.now()));
 
         return possibleRides;
 
