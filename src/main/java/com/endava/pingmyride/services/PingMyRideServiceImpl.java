@@ -7,16 +7,18 @@ import com.google.maps.GeoApiContext;
 import com.google.maps.PlacesApi;
 import com.google.maps.RoadsApi;
 import com.google.maps.errors.ApiException;
-import com.google.maps.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
+import com.google.maps.model.DistanceMatrix;
+import com.google.maps.model.DistanceMatrixElement;
+import com.google.maps.model.LatLng;
+import com.google.maps.model.PlaceDetails;
+import com.google.maps.model.SnappedPoint;
+import com.google.maps.model.TravelMode;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PingMyRideServiceImpl implements PingMyRideService {
@@ -30,7 +32,6 @@ public class PingMyRideServiceImpl implements PingMyRideService {
 
     public List<RouteResponse> findDriversForRider(String user, double lat, double lng)
             throws InterruptedException, ApiException, IOException {
-
         List<Driver> drivers = driverRepository.findAllDrivers();
 
         PlaceDetails placeDetails = getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
@@ -55,52 +56,31 @@ public class PingMyRideServiceImpl implements PingMyRideService {
                     minDistanceMatrixElement, minIndex, distanceMatrix);
 
             rideResponses.add(routeResponse);
-
         }
-
-
-        Collections.sort(rideResponses, (response1, response2) -> {
-            if (response1.walkingDuration < response2.walkingDuration) {
-                return -1;
-            } else if (response1.walkingDuration > response2.walkingDuration) {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
-
+        rideResponses.sort(Comparator.comparingLong(response -> response.walkingDuration));
         return rideResponses;
-
     }
 
     public SnappedPoint[] getRoadSnappedPoints(LatLng[] latLngs) throws InterruptedException, ApiException, IOException {
-
         SnappedPoint[] snappedPoints = RoadsApi.snapToRoads(context, true, latLngs).await();
-
         for (SnappedPoint snappedPoint : snappedPoints) {
             PlaceDetails placeDetails = getPlaceDetails(snappedPoint.placeId);
         }
-
         return snappedPoints;
     }
 
 
     public PlaceDetails getPlaceDetails(String placeId) throws InterruptedException, ApiException, IOException {
-        PlaceDetails placeDetails = PlacesApi.placeDetails(context, placeId).await();
-        return placeDetails;
+        return PlacesApi.placeDetails(context, placeId).await();
     }
 
     public DistanceMatrix getWalkingDistanceMatrix(LatLng[] origins, LatLng[] destinations)
             throws InterruptedException, ApiException, IOException {
-
-        DistanceMatrix distanceMatrix = DistanceMatrixApi.newRequest(context)
+        return DistanceMatrixApi.newRequest(context)
                 .origins(origins)
                 .destinations(destinations)
                 .mode(TravelMode.WALKING)
                 .await();
-
-        return distanceMatrix;
     }
-
 
 }

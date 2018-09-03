@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class PingMyRideResController {
+public class PingMyRideRestController {
 
     @Autowired
     private PingMyRideService pingMyRideService;
@@ -42,29 +42,29 @@ public class PingMyRideResController {
     }
 
     @GetMapping("/{user}/drivers")
-    public List<RouteResponse> finMyRides(@PathVariable String user, @RequestParam double lat, @RequestParam double lng) throws InterruptedException, ApiException, IOException {
-
-        return pingMyRideService.findDriversForRider(user, lat, lng) ;
+    public List<RouteResponse> finMyRides(@PathVariable String user, @RequestParam double lat,
+        @RequestParam double lng) throws InterruptedException, ApiException, IOException {
+        return pingMyRideService.findDriversForRider(user, lat, lng);
     }
 
     @PostMapping("/find-path")
-    public SnappedPoint[] findPath(@RequestBody LatLng[] latLngs) throws InterruptedException, ApiException, IOException {
+    public SnappedPoint[] findPath(@RequestBody LatLng[] latLngs)
+        throws InterruptedException, ApiException, IOException {
         return pingMyRideService.getRoadSnappedPoints(latLngs);
     }
-
 
     @RequestMapping(path = "/routes/{userName}", method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<List<Route>> findRoutesByUsername(
         @PathVariable String userName, HttpServletRequest request) {
         ResponseEntity<List<Route>> responseEntity =
-            new ResponseEntity<List<Route>>(HttpStatus.BAD_REQUEST);
+            new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         Person user = personService.findByUserName(userName);
 
         if (user != null) {
             List<Route> routes = routeService.findByPerson(user.getId());
-            responseEntity = new ResponseEntity<List<Route>>(routes, HttpStatus.OK);
+            responseEntity = new ResponseEntity<>(routes, HttpStatus.OK);
         }
         return responseEntity;
     }
@@ -72,6 +72,11 @@ public class PingMyRideResController {
     @GetMapping("/routes")
     public List<Route> findAllRoutes(){
         return routeService.findAll();
+    }
+
+    @PostMapping("/routes")
+    public Long postRoute(@RequestBody Route route) {
+        return routeService.save(route).getId();
     }
 
 }
