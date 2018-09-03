@@ -27,7 +27,8 @@ public class PingMyRideServiceImpl implements PingMyRideService {
     @Autowired
     private DriverRepository driverRepository;
 
-    public List<RouteResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
+    public List<RouteResponse> findDriversForRider(String user, double lat, double lng)
+            throws InterruptedException, ApiException, IOException {
 
         List<Driver> drivers = driverRepository.findAllDrivers();
 
@@ -46,7 +47,8 @@ public class PingMyRideServiceImpl implements PingMyRideService {
                         } else {
                             return 0;
                         }
-                    }).map(distanceMatrixElement -> new RouteResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
+                    }).map(distanceMatrixElement -> new RouteResponse(driver, distanceMatrixElement.duration.inSeconds,
+                            distanceMatrixElement, distanceMatrix)).get());
         }
 
 
