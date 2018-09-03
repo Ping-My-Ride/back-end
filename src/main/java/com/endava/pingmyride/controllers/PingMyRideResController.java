@@ -1,6 +1,5 @@
 package com.endava.pingmyride.controllers;
 
-import com.endava.pingmyride.services.Driver;
 import com.endava.pingmyride.services.PingMyRideServiceImpl;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.LatLng;
@@ -23,7 +22,7 @@ public class PingMyRideResController {
     }
 
     @GetMapping("/{user}/drivers")
-    public List<RideResponse> finMyRides(@PathVariable String user, @RequestParam double lat, @RequestParam double lng) throws InterruptedException, ApiException, IOException {
+    public List<RiderResponse> finMyRides(@PathVariable String user, @RequestParam double lat, @RequestParam double lng) throws InterruptedException, ApiException, IOException {
 
         return pingMyRideService.findDriversForRider(user, lat, lng) ;
     }

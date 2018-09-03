@@ -1,7 +1,6 @@
 package com.endava.pingmyride.services;
 
-import com.endava.pingmyride.controllers.RideRequest;
-import com.endava.pingmyride.controllers.RideResponse;
+import com.endava.pingmyride.controllers.RiderResponse;
 import com.endava.pingmyride.repository.DriverRepository;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
@@ -11,7 +10,6 @@ import com.google.maps.errors.ApiException;
 import com.google.maps.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,13 +27,13 @@ public class PingMyRideServiceImpl implements PingMyRideService {
     @Autowired
     private DriverRepository driverRepository;
 
-    public List<RideResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
+    public List<RiderResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
 
         List<Driver> drivers = driverRepository.findAllDrivers();
 
         //PlaceDetails placeDetails = pingMyRideService.getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
 
-        List<RideResponse> rideResponses = new ArrayList<>();
+        List<RiderResponse> rideResponses = new ArrayList<>();
 
         for (Driver driver : drivers) {
             DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(lat, lng)}, driver.route);
@@ -48,7 +46,7 @@ public class PingMyRideServiceImpl implements PingMyRideService {
                         } else {
                             return 0;
                         }
-                    }).map(distanceMatrixElement -> new RideResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
+                    }).map(distanceMatrixElement -> new RiderResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
         }
 
 

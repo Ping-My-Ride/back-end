@@ -1,7 +1,6 @@
 package com.endava.pingmyride.services;
 
-import com.endava.pingmyride.controllers.RideRequest;
-import com.endava.pingmyride.controllers.RideResponse;
+import com.endava.pingmyride.controllers.RiderResponse;
 import com.google.maps.errors.ApiException;
 import com.google.maps.model.DistanceMatrix;
 import com.google.maps.model.LatLng;
@@ -13,7 +12,7 @@ import java.util.List;
 
 public interface PingMyRideService {
 
-    List<RideResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException;
+    List<RiderResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException;
 
     SnappedPoint[] getRoadSnappedPoints(LatLng[] latLngs) throws InterruptedException,
             ApiException, IOException;
