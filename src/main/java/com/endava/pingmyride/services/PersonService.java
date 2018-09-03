@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface PersonService {
   public Person findByUserName(String userName);
   public Optional<Person> findById(Long id);
+  public Person save(Person person);
 }

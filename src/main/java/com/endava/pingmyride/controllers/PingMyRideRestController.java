@@ -69,6 +69,16 @@ public class PingMyRideRestController {
         return responseEntity;
     }
 
+    @GetMapping(path = "/user/{userName}")
+    public Person findPersonByUserName(@PathVariable String userName){
+        return personService.findByUserName(userName);
+    }
+
+    @PostMapping("/user")
+    public Long createPerson(@RequestBody Person person){
+        return personService.save(person).getId();
+    }
+
     @GetMapping("/routes")
     public List<Route> findAllRoutes(){
         return routeService.findAll();
