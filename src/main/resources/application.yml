@@ -7,3 +7,12 @@ spring:
 
     hikari:
       maximum-pool-size: 5
+    jpa:
+      hibernate:
+        ddl-auto: update
+        naming-strategy: org.hibernate.cfg.DefaultNamingStrategy
+        connection:
+          provider_disables_autocommit: true
+      properties:
+        hibernate:
+          format_sql: true
