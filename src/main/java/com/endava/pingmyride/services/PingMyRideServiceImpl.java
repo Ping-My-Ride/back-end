@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class PingMyRideServiceImpl implements PingMyRideService {
@@ -27,26 +28,34 @@ public class PingMyRideServiceImpl implements PingMyRideService {
     @Autowired
     private DriverRepository driverRepository;
 
-    public List<RouteResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
+    public List<RouteResponse> findDriversForRider(String user, double lat, double lng)
+            throws InterruptedException, ApiException, IOException {
 
         List<Driver> drivers = driverRepository.findAllDrivers();
 
-        //PlaceDetails placeDetails = pingMyRideService.getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
+        PlaceDetails placeDetails = getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
 
         List<RouteResponse> rideResponses = new ArrayList<>();
 
         for (Driver driver : drivers) {
             DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(lat, lng)}, driver.route);
-            rideResponses.add(Arrays.stream(distanceMatrix.rows[0].elements)
-                    .min((dm1, dm2) -> {
-                        if (dm1.duration.inSeconds < dm2.duration.inSeconds) {
-                            return -1;
-                        } else if (dm1.duration.inSeconds > dm2.duration.inSeconds) {
-                            return 1;
-                        } else {
-                            return 0;
+
+
+            int minIndex = 0;
+            DistanceMatrixElement minDistanceMatrixElement = distanceMatrix.rows[0].elements[minIndex];
+
+            for(int i=1; i< distanceMatrix.rows[0].elements.length; i++) {
+                        if (minDistanceMatrixElement.duration.inSeconds > distanceMatrix.rows[0].elements[i].duration.inSeconds) {
+                            minDistanceMatrixElement = distanceMatrix.rows[0].elements[i];
+                            minIndex = i;
                         }
-                    }).map(distanceMatrixElement -> new RouteResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
+            }
+
+            RouteResponse routeResponse = new RouteResponse(driver, minDistanceMatrixElement.duration.inSeconds,
+                    minDistanceMatrixElement, minIndex, distanceMatrix);
+
+            rideResponses.add(routeResponse);
+
         }
 
 
