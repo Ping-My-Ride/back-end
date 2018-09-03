@@ -1,7 +1,6 @@
 package com.endava.pingmyride.services;
 
-import com.endava.pingmyride.controllers.RideRequest;
-import com.endava.pingmyride.controllers.RideResponse;
+import com.endava.pingmyride.controllers.RouteResponse;
 import com.endava.pingmyride.repository.DriverRepository;
 import com.google.maps.DistanceMatrixApi;
 import com.google.maps.GeoApiContext;
@@ -28,16 +27,16 @@ public class PingMyRideServiceImpl implements PingMyRideService {
     @Autowired
     private DriverRepository driverRepository;
 
-    public List<RideResponse> findDriversForRider(RideRequest rideRequest) throws InterruptedException, ApiException, IOException {
+    public List<RouteResponse> findDriversForRider(String user, double lat, double lng) throws InterruptedException, ApiException, IOException {
 
         List<Driver> drivers = driverRepository.findAllDrivers();
 
         //PlaceDetails placeDetails = pingMyRideService.getPlaceDetails("ChIJ_xhN2DWCRo4R9ok4DioM8jw");
 
-        List<RideResponse> rideResponses = new ArrayList<>();
+        List<RouteResponse> rideResponses = new ArrayList<>();
 
         for (Driver driver : drivers) {
-            DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(rideRequest.lat, rideRequest.lon)}, driver.route);
+            DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(lat, lng)}, driver.route);
             rideResponses.add(Arrays.stream(distanceMatrix.rows[0].elements)
                     .min((dm1, dm2) -> {
                         if (dm1.duration.inSeconds < dm2.duration.inSeconds) {
@@ -47,7 +46,7 @@ public class PingMyRideServiceImpl implements PingMyRideService {
                         } else {
                             return 0;
                         }
-                    }).map(distanceMatrixElement -> new RideResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
+                    }).map(distanceMatrixElement -> new RouteResponse(driver, distanceMatrixElement.duration.inSeconds, distanceMatrix)).get());
         }
 
 
