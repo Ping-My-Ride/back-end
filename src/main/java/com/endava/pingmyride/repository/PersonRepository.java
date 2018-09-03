@@ -1,7 +1,8 @@
 package com.endava.pingmyride.repository;
 
 
-import com.endava.pingmyride.model.Driver;
+
+import com.endava.pingmyride.model.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,6 @@ import org.springframework.stereotype.Repository;
  * @author jsilva.
  */
 @Repository
-public interface DriverRepository extends JpaRepository<Driver, Long> {
+public interface PersonRepository extends JpaRepository<Person, Long> {
 
 }

@@ -1,19 +1,21 @@
-// Copyright (c) 2018 Sotheby's, Inc.
 package com.endava.pingmyride.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
 
 /**
  * @author jsilva.
  */
 @Entity
-@Table(name="riders")
+@Table(name="person")
 @Data
-public class Rider {
+public class Person {
   @Id
   private Long id;
+  private String username;
+  private String password;
+  private String phone;
 
 }
