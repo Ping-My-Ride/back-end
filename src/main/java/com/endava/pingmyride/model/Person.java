@@ -11,16 +11,16 @@ import lombok.Data;
 /**
  * @author jsilva.
  */
-@Entity
-@Table(name="person")
 @Data
+@Entity
+@Table(name = "person")
 public class Person {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  @Column(name="username")
+  @Column(name = "username")
   private String userName;
   private String password;
   private String phone;
-
 }

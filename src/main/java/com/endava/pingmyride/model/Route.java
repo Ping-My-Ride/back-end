@@ -15,16 +15,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author jsilva.
  */
+@Data
 @Entity
 @Table(name = "route")
-@Data
-@Builder
 public class Route {
 
   @Id
