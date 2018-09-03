@@ -1,11 +1,9 @@
 package com.endava.pingmyride.model;
 
-import java.util.Date;
+import java.sql.Time;
 import java.util.List;
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import lombok.Data;
 
 /**
@@ -29,10 +25,9 @@ public class Route {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
-  @Column(name = "arrival", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
-  @Temporal(TemporalType.TIMESTAMP)
-  private Date arrival;
-  @ManyToOne(fetch = FetchType.EAGER)
+  //@Temporal(TemporalType.TIME)
+  private Time arrival;
+  @ManyToOne
   @JoinColumn(name = "personid")
   private Person person;
   @OneToMany(targetEntity = Point.class, mappedBy = "routeId", cascade = CascadeType.ALL)

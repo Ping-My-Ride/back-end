@@ -27,6 +27,7 @@ public class Point {
   private Double longitude;
   @NotNull
   @ManyToOne
+  //@JoinColumn(name = "routeid")
   @Column(name = "routeid")
   private Long routeId;
 }
