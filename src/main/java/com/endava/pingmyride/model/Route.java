@@ -2,7 +2,6 @@ package com.endava.pingmyride.model;
 
 import java.sql.Time;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,6 +29,6 @@ public class Route {
   @ManyToOne
   @JoinColumn(name = "personid")
   private Person person;
-  @OneToMany(targetEntity = Point.class, mappedBy = "routeId", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "routeId")
   private List<Point> points;
 }

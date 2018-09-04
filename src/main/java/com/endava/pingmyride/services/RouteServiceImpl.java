@@ -1,6 +1,7 @@
 package com.endava.pingmyride.services;
 
 import com.endava.pingmyride.model.Route;
+import com.endava.pingmyride.repository.PointRepository;
 import com.endava.pingmyride.repository.RouteRepository;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,9 @@ public class RouteServiceImpl implements RouteService {
   @Autowired
   private RouteRepository routeRepository;
 
+  @Autowired
+  private PointRepository pointRepository;
+
   @Override
   public List<Route> findByPerson(Long personId) {
     return routeRepository.findByPerson(personId);
@@ -27,12 +31,15 @@ public class RouteServiceImpl implements RouteService {
   }
 
   @Override
-  public List<Route> findAll(){
+  public List<Route> findAll() {
     return routeRepository.findAll();
   }
 
   @Override
   public Route save(Route route) {
-    return routeRepository.save(route);
+    final Route saved = routeRepository.save(route);
+    route.getPoints().stream().peek(point -> point.setRouteId(saved.getId()))
+        .forEach(pointRepository::save);
+    return saved;
   }
 }
