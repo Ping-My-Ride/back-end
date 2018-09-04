@@ -42,8 +42,12 @@ public class PingMyRideServiceImpl implements PingMyRideService {
         List<RouteResponse> rideResponses = new ArrayList<>();
 
         for (Route route : routes) {
-            LatLng[] routePoints = route.getPoints().stream().map(
-                    point -> new LatLng(point.getLatitude(), point.getLongitude())).toArray(LatLng[]::new);
+
+            LatLng[] routePoints = Arrays.stream(route.getPoints().split("|")).map(point -> point
+                            .replace("(","")
+                            .replace(")","").split(","))
+                            .map(points -> new LatLng(Double.parseDouble(points[0]), Double.parseDouble(points[1])))
+                    .toArray(LatLng[]::new);
 
             DistanceMatrix distanceMatrix = getWalkingDistanceMatrix(new LatLng[]{new LatLng(lat, lng)}, routePoints);
 

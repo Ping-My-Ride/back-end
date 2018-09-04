@@ -17,7 +17,7 @@ import lombok.Data;
  * @author jsilva.
  */
 @Entity
-@Table(name="route")
+@Table(name="route2")
 @Data
 public class Route {
   @Id
@@ -28,6 +28,5 @@ public class Route {
   @ManyToOne(fetch =FetchType.EAGER)
   @JoinColumn(name="personid")
   private Person  person;
-  @OneToMany(targetEntity = Point.class, mappedBy = "routeId", cascade = CascadeType.ALL)
-  private List<Point> points;
+  private String points;
 }
